@@ -1,4 +1,4 @@
-#!/usr/local/bin/node
+#!/usr/bin/env node
 'use strict';
 
 const args = process.argv.slice(2);
