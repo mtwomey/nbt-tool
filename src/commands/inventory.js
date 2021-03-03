@@ -3,26 +3,33 @@
 const tcommands = require('tcommands');
 const nbt = require('../../lib/nbt');
 
-tcommands.register({
+const command = {
     name: 'inventory',
     syntax: [
         '-i',
-        '--inventory',
+        '--inventory'
     ],
     helpText: 'Print out player inventory from player NBT data',
-    handler: handler,
-});
+    handler: handler
+};
+
+tcommands.register(command);
 
 async function handler () {
-    let filename = tcommands.getArgValue('inventory');
+    let filename = tcommands.getArgValue(command.name);
 
     if (typeof filename === 'boolean')
         filename = '-';
 
     nbt.getSimplifiedNBTData(filename).then(data => {
         data.Inventory.forEach(item => {
-            if (item.Name)
-                console.log(item.Name);
+            if (item.Name) {
+                let s = item.Name.replace(/^minecraft:/, '');
+                if (item.Count > 1)
+                    s += ` x ${item.Count}`;
+                console.log(s);
+            }
+
         })
     })
 }
