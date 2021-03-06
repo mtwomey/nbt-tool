@@ -16,7 +16,11 @@ const command = {
 tcommands.register(command);
 
 async function handler () {
-    const filename = tcommands.getArgValue(command.name);
+    let filename = tcommands.getArgValue(command.name);
+
+    if (typeof filename === 'boolean')
+        filename = '-';
+
     if (typeof filename === 'boolean') {
         console.log('Must supply a filename for dump (or STDIN)');
         process.exit(1);
