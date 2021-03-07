@@ -2,6 +2,7 @@
 
 const tcommands = require('tcommands');
 const nbt = require('../../lib/nbt');
+const enchantments = require('../../lib/enchantments');
 
 const command = {
     name: 'inventory',
@@ -29,9 +30,14 @@ async function handler () {
                     s += ` x ${item.Count}`;
                 if (item.tag) {
                     const tags  = Object.entries(item.tag).map(([key, value]) => {
+                        if (key === 'ench') { // Dig into enchantments and get that info
+                            return(value.map(enchantment => {
+                                return `${enchantments.getEnchantmentById(enchantment.id)} Lvl ${enchantment.lvl} `;
+                            }).join(', '));
+                        }
                         return(`${key}: ${value}`);
                     });
-                    s += ` [${tags.join(',')}]`;
+                    s += ` [${tags.join(', ')}]`;
                 }
                 console.log(s);
             }
