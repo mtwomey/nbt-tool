@@ -27,9 +27,14 @@ async function handler () {
                 let s = item.Name.replace(/^minecraft:/, '');
                 if (item.Count > 1)
                     s += ` x ${item.Count}`;
+                if (item.tag) {
+                    const tags  = Object.entries(item.tag).map(([key, value]) => {
+                        return(`${key}: ${value}`);
+                    });
+                    s += ` [${tags.join(',')}]`;
+                }
                 console.log(s);
             }
-
         })
     })
 }
